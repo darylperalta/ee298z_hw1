@@ -44,7 +44,8 @@ loss = np.mean((np.matmul(A,x)-b_noise)**2)
 
 grad = np.matmul(A.T,np.matmul(A,x))-np.matmul(A.T,b_noise)
 
-x_solved =np.random.uniform(low=0,high=0.1,size=x.shape)
+#initialize x
+x_solved =np.random.uniform(low=-0.5,high=0.5,size=x.shape)
 
 loss1 = np.mean((np.matmul(A,x_solved)-b_noise)**2)
 
@@ -56,7 +57,7 @@ while(np.linalg.norm(grad,2)>tol):
 #while(loss>tol):
     loss2 = np.mean((np.matmul(A,x_solved)-b_noise)**2)
     if(loss2>loss1):
-        lr = lr/5
+        lr = lr/10
         loss1=loss2
     grad = np.matmul(np.matmul(A.T,A),x_solved)-np.matmul(A.T,b_noise)
 
@@ -79,7 +80,18 @@ while(np.linalg.norm(grad,2)>tol):
     if iter_ctr == lr_ctr*1000:
         lr = lr/10
     '''
+
+
 print("Finished.")
 print("x")
 print(x_solved)
+print(x_solved.shape)
+print("Polynomial:")
+poly_string = ''
+for i in range(degree-1):
+    poly_string = poly_string+ ' ' + repr(x_solved[i,0])+ 'x^'+ repr(degree-i) + ' + '
+poly_string = poly_string + repr(x_solved[degree-1,0]) + 'x + '
+poly_string = poly_string + repr(x_solved[degree,0])
+print(poly_string)
+#print(x_solved)
 #print(iter_ctr)
